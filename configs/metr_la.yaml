@@ -1,0 +1,21 @@
+dataset:
+  city: metr_la
+  data_path: data/raw/METR-LA/metr-la.h5
+  adjacency_path: data/raw/METR-LA/adj_mx.pkl
+  input_steps: 12
+  output_steps: 12
+  train_ratio: 0.7
+  val_ratio: 0.1
+  steps_per_day: 288
+experiment:
+  model: stgcn
+  mode: target-full
+  seed: 42
+  batch_size: 32
+  hidden_dim: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  max_epochs: 50
+  patience: 8
+  amp: true
+
