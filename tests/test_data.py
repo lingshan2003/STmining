@@ -28,3 +28,8 @@ def test_normalized_adjacency_is_symmetric_with_self_loops():
     assert np.allclose(result.numpy(), result.numpy().T)
     assert np.all(np.diag(result.numpy()) > 0)
 
+
+def test_normalization_does_not_double_existing_self_loops():
+    without_loops = normalize_adjacency(np.array([[0, 1], [1, 0]], dtype=np.float32))
+    with_loops = normalize_adjacency(np.array([[1, 1], [1, 1]], dtype=np.float32))
+    assert np.allclose(without_loops.numpy(), with_loops.numpy())

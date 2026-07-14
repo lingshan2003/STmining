@@ -39,9 +39,12 @@ def gaussian_adjacency(distances: np.ndarray, threshold: float = 0.1) -> np.ndar
 
 
 def normalize_adjacency(adjacency: np.ndarray | torch.Tensor) -> torch.Tensor:
-    a = torch.as_tensor(adjacency, dtype=torch.float32)
+    # Some public traffic graph files already store diagonal ones while others
+    # do not. Remove any existing diagonal first so every graph receives exactly
+    # one self-loop and ablations use the same convention.
+    a = torch.as_tensor(adjacency, dtype=torch.float32).clone()
+    a.fill_diagonal_(0)
     a = a + torch.eye(a.shape[0], dtype=a.dtype, device=a.device)
     degree = a.sum(dim=1).clamp_min(1e-8)
     inv_sqrt = degree.rsqrt()
     return inv_sqrt[:, None] * a * inv_sqrt[None, :]
-
