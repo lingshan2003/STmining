@@ -8,7 +8,7 @@
 - `y = V[t:t+12]`，形状为 `[12,N]`；
 - `mask` 与 `y` 同形状，表示哪些真实值可以计入损失。
 
-先阅读 `TrafficDataset.__getitem__`。练习：在纸上取 `T=10, input=3, output=2`，列出所有合法预测起点。
+先阅读 `TrafficDataset.__getitem__`。 练习：在纸上取 `T=10, input=3, output=2`，列出所有合法预测起点。
 
 ## 第二课：为什么切分容易泄漏
 

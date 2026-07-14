@@ -26,6 +26,17 @@ python -m pip install -e '.[dev]'
 pytest
 ```
 
+For notebooks, register this exact virtual environment as a kernel. Merely activating a
+virtual environment before starting a system-wide Jupyter server does not guarantee that
+the notebook uses it.
+
+```bash
+python -m pip install ipykernel
+python -m ipykernel install --user --name stmining --display-name "Python (STmining .venv)"
+```
+
+Then select `Python (STmining .venv)` from the notebook kernel menu.
+
 For NVIDIA systems, install the appropriate PyTorch build from the official PyTorch instructions before installing this project.
 
 ## 3. Data
@@ -116,4 +127,3 @@ tests/                   data, model, metric, and transfer invariants
 ## Limitations
 
 METR-LA and PEMS-BAY represent two California road-sensor regions rather than a globally diverse collection of cities. This first version measures transfer under controlled feature compatibility; it does not claim geographic universality or state-of-the-art performance. Weather, holidays, POIs, DCRNN, Graph WaveNet, and meta-learning are deliberately out of scope.
-

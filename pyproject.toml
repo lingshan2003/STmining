@@ -12,6 +12,7 @@ dependencies = [
   "numpy>=1.24",
   "pandas>=2.0",
   "h5py>=3.9",
+  "tables>=3.9",
   "PyYAML>=6.0",
   "torch>=2.2",
   "matplotlib>=3.7",
@@ -34,4 +35,3 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-

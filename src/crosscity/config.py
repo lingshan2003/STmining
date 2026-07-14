@@ -57,10 +57,18 @@ def _known_values(cls: type, raw: dict[str, Any]) -> dict[str, Any]:
 
 
 def load_config(path: str | Path) -> ProjectConfig:
-    with Path(path).open(encoding="utf-8") as handle:
+    path = Path(path).expanduser().resolve()
+    with path.open(encoding="utf-8") as handle:
         raw = yaml.safe_load(handle)
+    dataset_values = _known_values(DatasetConfig, raw["dataset"])
+    # Repository configs live in <project>/configs. Resolve their data paths once
+    # here so library calls behave identically from the CLI, notebooks, and tests.
+    project_root = path.parent.parent if path.parent.name == "configs" else path.parent
+    for key in ("data_path", "adjacency_path"):
+        value = Path(dataset_values[key]).expanduser()
+        if not value.is_absolute():
+            dataset_values[key] = str((project_root / value).resolve())
     return ProjectConfig(
-        dataset=DatasetConfig(**_known_values(DatasetConfig, raw["dataset"])),
+        dataset=DatasetConfig(**dataset_values),
         experiment=ExperimentConfig(**_known_values(ExperimentConfig, raw["experiment"])),
     )
-
