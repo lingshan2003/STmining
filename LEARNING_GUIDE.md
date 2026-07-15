@@ -83,3 +83,14 @@ MUTAG 的每个样本都是一张大小不同的分子图。PyG `DataLoader` 将
 第 09 个 notebook 比较 GraphMLP、GCN、GIN 与 GPS。GPS block 同时包含局部 GIN 消息
 传递和图内全局多头注意力。先检查 mini-batch，再做 smoke run，最后在固定分层划分上跑
 三个初始化种子。MUTAG 很小，必须报告波动，不能用单次排名宣称某种架构普遍更强。
+
+## 第九课：链接预测、负采样与图自编码器
+
+链接预测为节点对而不是单个节点或整张图预测标签。正样本是观察到的边；负样本从未连接
+节点对中抽取，因为枚举全部非边通常需要平方级空间，而且会导致严重类别不平衡。负边只
+表示“数据中未观察到”，未必表示现实中绝对不存在关系。
+
+第 10 个 notebook 先在五节点小图上枚举正边与候选非边，然后使用 `RandomLinkSplit`
+隐藏 Cora 的 validation/test 边。GCN encoder 将节点编码为潜在向量，内积 decoder 用
+`sigmoid(z_i^T z_j)` 重建边。GAE 学习确定向量，VGAE 学习均值和方差并加入 KL 正则。
+实验使用 ROC-AUC 和 Average Precision，避免被大量非边造成的表面 accuracy 欺骗。
