@@ -69,3 +69,17 @@ GraphSAGE 和 GAT 还读取邻居。
 
 后续章节将在同一套实验纪律下扩展到图分类、自监督 GraphMAE、Graph Transformer，最后
 再讨论图编码器如何与语言模型连接。
+
+## 第八课：从节点分类到整图分类
+
+MUTAG 的每个样本都是一张大小不同的分子图。PyG `DataLoader` 将多张图拼成互不连通的
+大图，`batch` 向量记录每个节点所属的图；global pooling 再将节点表示压缩成每图一个
+向量。这是图分类区别于 Cora 节点分类的关键形状变化：
+
+```text
+多个 Data → Batch[x, edge_index, batch] → 节点表示 → global pooling → [图数, 类别数]
+```
+
+第 09 个 notebook 比较 GraphMLP、GCN、GIN 与 GPS。GPS block 同时包含局部 GIN 消息
+传递和图内全局多头注意力。先检查 mini-batch，再做 smoke run，最后在固定分层划分上跑
+三个初始化种子。MUTAG 很小，必须报告波动，不能用单次排名宣称某种架构普遍更强。

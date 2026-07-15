@@ -140,3 +140,7 @@ Run `notebooks/08_static_gnn_node_classification.ipynb`. PyG downloads Cora into
 `data/raw/planetoid/`, uses the public train/validation/test split, and compares
 the real citation graph with identity and node-shuffled controls. Downloaded files remain local and
 must not be committed.
+
+Chapter 09 moves from transductive node classification to inductive whole-graph classification on
+MUTAG. It introduces PyG graph mini-batches and global pooling, then compares a feature-only graph
+MLP, GCN, GIN, and a GPS model combining local message passing with global attention.
