@@ -1,5 +1,6 @@
 from .baselines import HistoricalAverage, SharedMLP
 from .lstm import SharedLSTM
+from .static_gnn import GAT, GCN, GraphSAGE, MLPNodeClassifier
 from .stgcn import STGCN
 
 
@@ -14,5 +15,7 @@ def build_model(name: str, input_steps: int, output_steps: int, hidden_dim: int)
     return models[name]()
 
 
-__all__ = ["HistoricalAverage", "SharedMLP", "SharedLSTM", "STGCN", "build_model"]
-
+__all__ = [
+    "GAT", "GCN", "GraphSAGE", "HistoricalAverage", "MLPNodeClassifier",
+    "SharedLSTM", "SharedMLP", "STGCN", "build_model",
+]

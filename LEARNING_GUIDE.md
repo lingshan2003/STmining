@@ -52,3 +52,20 @@ MLP 把每个节点过去 12 个数直接映射为未来 12 个数。LSTM 按时
 
 每完成一部分都遵循：读概念 → 打印一个 batch 的形状 → 跑单测 → 两轮 smoke training → 看曲线 → 修改一个小因素并解释结果。不要一开始运行全部实验矩阵；先证明一条链路可信。
 
+## 第七课：在静态图上分离特征与结构
+
+Cora 把论文表示为节点、引文表示为边、词袋表示为节点特征，目标是预测论文主题。
+这一任务没有时间轴，因此 MLP 与 GNN 的差异更容易解释：MLP 只读取本节点特征，GCN、
+GraphSAGE 和 GAT 还读取邻居。
+
+阅读 `models/static_gnn.py`，并对照 PyTorch Geometric 的 `GCNConv`、`SAGEConv`、`GATConv`
+文档，按顺序完成：
+
+1. 用 MLP 建立无图基线；
+2. 用 identity、真实图和 shuffled 图训练同一个 GCN；
+3. 比较 GCN 的度归一化、GraphSAGE 的邻居均值和 GAT 的可学习注意力；
+4. 只根据 validation 选择模型，最后一次性查看 test；
+5. 解释收益来自图结构、节点特征，还是二者相关性。
+
+后续章节将在同一套实验纪律下扩展到图分类、自监督 GraphMAE、Graph Transformer，最后
+再讨论图编码器如何与语言模型连接。

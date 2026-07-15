@@ -1,10 +1,9 @@
 # Learning notebooks
 
-Notebooks are intentionally secondary to the tested package. Create exploration notebooks in this order:
+Notebooks are intentionally secondary to the tested package. The current learning sequence is:
 
-1. `01_data_windows.ipynb`: inspect daily periodicity, missingness, and manually verify one window.
-2. `02_graph_message_passing.ipynb`: multiply a tiny adjacency matrix by node features by hand.
-3. `03_transfer_analysis.ipynb`: load generated CSV results and plot transfer gain.
+1. `01`–`04`: traffic data, baselines, and temporal models.
+2. `05`–`07`: graph message passing, STGCN, and controlled graph ablations.
+3. `08_static_gnn_node_classification.ipynb`: MLP, GCN, GraphSAGE, and GAT on Cora.
 
 Each notebook should import code from `crosscity` instead of duplicating preprocessing logic.
-

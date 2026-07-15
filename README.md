@@ -1,6 +1,8 @@
 # Cross-City Traffic Forecasting
 
-A compact, research-oriented PyTorch project for asking whether knowledge learned on one road-sensor graph helps another city when only a few days of target data are available.
+A compact, research-oriented PyTorch project for learning graph neural networks from first
+principles. The first track studies cross-city traffic forecasting; the second starts from static
+node classification and grows toward graph attention, pretraining, and graph foundation models.
 
 The project compares Historical Average, a node-shared MLP, a node-shared LSTM, and an STGCN implemented from first principles. It supports scratch training, zero-shot transfer, full fine-tuning, and temporal-feature freezing between METR-LA and PEMS-BAY.
 
@@ -127,3 +129,14 @@ tests/                   data, model, metric, and transfer invariants
 ## Limitations
 
 METR-LA and PEMS-BAY represent two California road-sensor regions rather than a globally diverse collection of cities. This first version measures transfer under controlled feature compatibility; it does not claim geographic universality or state-of-the-art performance. Weather, holidays, POIs, DCRNN, Graph WaveNet, and meta-learning are deliberately out of scope.
+
+## 8. Static GNN learning track
+
+Chapter 08 uses the public Cora citation network to separate graph learning from time-series
+forecasting. It uses PyTorch Geometric's `Planetoid`, `GCNConv`, `SAGEConv`, and `GATConv` APIs so
+the experiments can focus on model behavior and controlled graph ablations.
+
+Run `notebooks/08_static_gnn_node_classification.ipynb`. PyG downloads Cora into
+`data/raw/planetoid/`, uses the public train/validation/test split, and compares
+the real citation graph with identity and node-shuffled controls. Downloaded files remain local and
+must not be committed.
