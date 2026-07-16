@@ -1,6 +1,11 @@
 from .baselines import HistoricalAverage, SharedMLP
 from .graph_classification import GraphGCN, GraphGIN, GraphGPS, GraphMLP
 from .heterogeneous_recommendation import HeterogeneousEmbedding, HeterogeneousGraphSAGE
+from .heterogeneous_transformer import (
+    HeterogeneousMLPClassifier,
+    HeterogeneousSAGEClassifier,
+    HGTClassifier,
+)
 from .link_prediction import GCNEncoder, VariationalGCNEncoder, build_gae, build_vgae
 from .knowledge_graph import DistMult, RGCNDistMult, TransE
 from .recommendation import MatrixFactorization, build_lightgcn
@@ -24,7 +29,8 @@ __all__ = [
     "GAT", "GCN", "GCNEncoder", "GraphGCN", "GraphGIN", "GraphGPS", "GraphMLP",
     "GraphSAGE", "VariationalGCNEncoder", "build_gae", "build_vgae",
     "DistMult", "HeterogeneousEmbedding", "HeterogeneousGraphSAGE",
-    "HistoricalAverage", "MLPNodeClassifier", "MatrixFactorization", "RGCNDistMult",
-    "TransE", "build_lightgcn",
+    "HeterogeneousMLPClassifier", "HeterogeneousSAGEClassifier", "HGTClassifier",
+    "HistoricalAverage", "MLPNodeClassifier", "MatrixFactorization",
+    "RGCNDistMult", "TransE", "build_lightgcn",
     "SharedLSTM", "SharedMLP", "STGCN", "build_model",
 ]
