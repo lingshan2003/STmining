@@ -10,5 +10,7 @@ Notebooks are intentionally secondary to the tested package. The current learnin
 6. `11_recommendation_and_lightgcn.ipynb`: bipartite recommendation, BPR, and LightGCN.
 7. `12_recommendation_graph_diagnostics.ipynb`: graph density, propagation depth,
    layer weights, seed variance, popularity bias, and long-tail recommendation.
+8. `13_knowledge_graph_and_rgcn.ipynb`: triples, relation embeddings, TransE,
+   DistMult, R-GCN, corrupted negatives, filtered MRR, and Hits@K.
 
 Each notebook should import code from `crosscity` instead of duplicating preprocessing logic.
