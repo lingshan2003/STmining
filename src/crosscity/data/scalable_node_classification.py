@@ -4,6 +4,8 @@ from pathlib import Path
 
 import torch
 from torch_geometric.data import Data
+from torch_geometric.data.data import DataEdgeAttr, DataTensorAttr
+from torch_geometric.data.storage import GlobalStorage
 from torch_geometric.transforms import ToUndirected
 
 
@@ -21,7 +23,11 @@ def load_ogbn_arxiv(root: str | Path) -> Data:
             "`python -m pip install -e '.[dev]'`"
         ) from exc
 
-    dataset = PygNodePropPredDataset(name="ogbn-arxiv", root=str(Path(root)))
+    # OGB stores a full PyG ``Data`` object rather than a tensor-only state dict.
+    # Since PyTorch 2.6, torch.load defaults to weights_only=True, so explicitly
+    # allow the PyG container classes required by this trusted public dataset.
+    with torch.serialization.safe_globals([DataEdgeAttr, DataTensorAttr, GlobalStorage]):
+        dataset = PygNodePropPredDataset(name="ogbn-arxiv", root=str(Path(root)))
     graph = ToUndirected()(dataset[0])
     graph.y = graph.y.view(-1).long()
     split = dataset.get_idx_split()
