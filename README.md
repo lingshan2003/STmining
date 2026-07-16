@@ -16,7 +16,8 @@ autoencoders, LightGCN, R-GCN, HGT, and TGN on public datasets.
 - `08–10`: node, graph, and edge-level GNN tasks.
 - `11–15`: recommendation, knowledge graphs, and heterogeneous graphs.
 - `16`: temporal graph memory and continuous-time message passing.
-- `17+`: scalable training, GNN failure modes, self-supervision, and graph foundation models.
+- `17`: scalable mini-batch training, neighbor sampling, and inductive GraphSAGE.
+- `18+`: GNN failure modes, self-supervision, and graph foundation models.
 
 See [LEARNING_GUIDE.md](LEARNING_GUIDE.md) for the unified roadmap, prerequisites, completed
 lessons, experimental conclusions, and planned chapters. See [notebooks/README.md](notebooks/README.md)
@@ -141,8 +142,8 @@ METR-LA and PEMS-BAY represent two California road-sensor regions rather than a 
 The notebooks form a cumulative course rather than independent demos. Each lesson introduces a
 simple baseline, the relevant mathematics, a leakage-safe evaluation protocol, and a controlled
 comparison before using a more expressive model. Current public datasets include Cora, MUTAG,
-MovieLens100K, DBLP, and JODIE Wikipedia. The next planned lesson stays on the GNN main track:
-scalable mini-batch training, neighbor sampling, and inductive GraphSAGE on a larger public graph.
+MovieLens100K, DBLP, JODIE Wikipedia, and OGBN-Arxiv. Chapter 17 stays on the GNN main
+track with scalable mini-batch training, neighbor sampling, and inductive GraphSAGE.
 
 Notebook code should import reusable implementations from `src/crosscity/`; tests under `tests/`
 check data splits, tensor shapes, state updates, and smoke training.
