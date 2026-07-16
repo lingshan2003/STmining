@@ -37,12 +37,19 @@
 | 14 | `14_heterogeneous_product_recommendation.ipynb` | 多行为商品异构图与 HeteroData |
 | 15 | `15_hgt_on_dblp.ipynb` | 公开 DBLP 上的 HeteroSAGE 与 HGT |
 
-## E. 动态图与时间推荐
+## E. 动态图
 
 | 编号 | Notebook | 状态 |
 |---|---|---|
 | 16 | `16_temporal_graph_network.ipynb` | 已完成：JODIE Wikipedia、TGN 与严格时间评价 |
-| 17 | 待创建 | 下一课：RetailRocket、GRU4Rec 与 SASRec |
-| 18 | 待创建 | 规划：多行为时序异构推荐 |
+
+## F. GNN 核心进阶
+
+| 编号 | Notebook | 状态 |
+|---|---|---|
+| 17 | 待创建 | 下一课：大图 mini-batch、neighbor sampling 与 GraphSAGE |
+| 18 | 待创建 | 规划：过平滑、过挤压与异配图 |
+| 19 | 待创建 | 规划：图自监督、预训练与 GraphMAE |
+| 20 | 待创建 | 规划：图基础模型与图—语言模型 |
 
 Notebook 负责解释与实验编排；可复用的数据、模型和训练逻辑必须从 `crosscity` package 导入，避免在 notebook 中复制出另一套不可测试的实现。
