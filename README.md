@@ -1,20 +1,25 @@
-# Cross-City Traffic Forecasting
+# STmining: Learning Graph Neural Networks Through Real Tasks
 
 A compact, research-oriented PyTorch project for learning graph neural networks from first
-principles. The first track studies cross-city traffic forecasting; the second starts from static
-node classification and grows toward graph attention, pretraining, and graph foundation models.
+principles. It began with cross-city traffic forecasting and now follows one broader GNN curriculum:
+spatiotemporal prediction, static graph tasks, recommendation, knowledge graphs, heterogeneous
+graphs, and temporal graphs.
 
-The project compares Historical Average, a node-shared MLP, a node-shared LSTM, and an STGCN implemented from first principles. It supports scratch training, zero-shot transfer, full fine-tuning, and temporal-feature freezing between METR-LA and PEMS-BAY.
+The traffic track compares Historical Average, a node-shared MLP/LSTM, and an STGCN implemented
+from first principles. Later lessons use PyTorch Geometric to study GAT, GIN, GPS, graph
+autoencoders, LightGCN, R-GCN, HGT, and TGN on public datasets.
 
-## 1. What you will learn
+## 1. Learning map
 
-- How `[time, node]` traffic data becomes supervised windows `[batch, input_time, node, feature]`.
-- Why normalization must be fitted on the training period only.
-- How a graph convolution aggregates neighboring sensors.
-- Why channel-based weights transfer between graphs with different node counts.
-- How to distinguish genuine few-shot gains from leakage or favorable random seeds.
+- `01–04`: time-series data, baselines, MLP, and LSTM.
+- `05–07`: graph message passing, STGCN, and graph diagnostics.
+- `08–10`: node, graph, and edge-level GNN tasks.
+- `11–15`: recommendation, knowledge graphs, and heterogeneous graphs.
+- `16+`: temporal graphs, sequential recommendation, and later scalable/pretrained GNNs.
 
-See [LEARNING_GUIDE.md](LEARNING_GUIDE.md) before changing a model.
+See [LEARNING_GUIDE.md](LEARNING_GUIDE.md) for the unified roadmap, prerequisites, completed
+lessons, experimental conclusions, and planned chapters. See [notebooks/README.md](notebooks/README.md)
+for the file-by-file index.
 
 ## 2. Installation
 
@@ -130,24 +135,13 @@ tests/                   data, model, metric, and transfer invariants
 
 METR-LA and PEMS-BAY represent two California road-sensor regions rather than a globally diverse collection of cities. This first version measures transfer under controlled feature compatibility; it does not claim geographic universality or state-of-the-art performance. Weather, holidays, POIs, DCRNN, Graph WaveNet, and meta-learning are deliberately out of scope.
 
-## 8. Static GNN learning track
+## 8. GNN learning notebooks
 
-Chapter 08 uses the public Cora citation network to separate graph learning from time-series
-forecasting. It uses PyTorch Geometric's `Planetoid`, `GCNConv`, `SAGEConv`, and `GATConv` APIs so
-the experiments can focus on model behavior and controlled graph ablations.
+The notebooks form a cumulative course rather than independent demos. Each lesson introduces a
+simple baseline, the relevant mathematics, a leakage-safe evaluation protocol, and a controlled
+comparison before using a more expressive model. Current public datasets include Cora, MUTAG,
+MovieLens100K, DBLP, and JODIE Wikipedia. The next planned lesson moves to real ecommerce event
+sequences with RetailRocket, GRU4Rec, and SASRec.
 
-Run `notebooks/08_static_gnn_node_classification.ipynb`. PyG downloads Cora into
-`data/raw/planetoid/`, uses the public train/validation/test split, and compares
-the real citation graph with identity and node-shuffled controls. Downloaded files remain local and
-must not be committed.
-
-Chapter 09 moves from transductive node classification to inductive whole-graph classification on
-MUTAG. It introduces PyG graph mini-batches and global pooling, then compares a feature-only graph
-MLP, GCN, GIN, and a GPS model combining local message passing with global attention.
-
-Chapter 10 completes the basic task taxonomy with edge-level link prediction on Cora. It explains
-negative sampling and leakage-safe edge splits, then compares feature similarity, GAE, and VGAE
-using ROC-AUC and Average Precision.
-
-Chapter 11 applies link prediction to MovieLens100K. It introduces user-item bipartite graphs,
-implicit feedback, BPR ranking loss, Recall/NDCG at K, matrix factorization, and LightGCN.
+Notebook code should import reusable implementations from `src/crosscity/`; tests under `tests/`
+check data splits, tensor shapes, state updates, and smoke training.
