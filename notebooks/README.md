@@ -12,5 +12,7 @@ Notebooks are intentionally secondary to the tested package. The current learnin
    layer weights, seed variance, popularity bias, and long-tail recommendation.
 8. `13_knowledge_graph_and_rgcn.ipynb`: triples, relation embeddings, TransE,
    DistMult, R-GCN, corrupted negatives, filtered MRR, and Hits@K.
+9. `14_heterogeneous_product_recommendation.ipynb`: typed nodes, multi-behaviour
+   product graphs, PyG HeteroData, relation-specific GraphSAGE, and purchase ranking.
 
 Each notebook should import code from `crosscity` instead of duplicating preprocessing logic.
