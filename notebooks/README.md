@@ -16,5 +16,7 @@ Notebooks are intentionally secondary to the tested package. The current learnin
    product graphs, PyG HeteroData, relation-specific GraphSAGE, and purchase ranking.
 10. `15_hgt_on_dblp.ipynb`: public DBLP, type-specific feature projection,
     heterogeneous attention, multi-head HGT, accuracy, and macro-F1.
+11. `16_temporal_graph_network.ipynb`: ordered Wikipedia events, temporal
+    leakage, node memory, elapsed-time encoding, recent-neighbor attention, and TGN.
 
 Each notebook should import code from `crosscity` instead of duplicating preprocessing logic.

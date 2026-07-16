@@ -149,3 +149,14 @@ HGT 为不同节点类型生成不同 Query/Key/Value，并用关系参数修正
 不同子空间同时关注不同语义邻居。实验比较 author-only MLP、固定关系聚合的异构 GraphSAGE
 和 HGT，并报告 accuracy 与对各类别等权的 macro-F1。默认在完整公开图上跑一个 seed；正式
 结果再开启三个 seed。时间戳将在后续 Temporal GNN 课程中用于严格过去→未来划分和兴趣漂移。
+
+## 第十五课：事件流、节点记忆与 Temporal Graph Network
+
+第 16 个 notebook 使用公开 JODIE Wikipedia：约 15.7 万条用户编辑页面事件按时间到达，每条
+事件包含 source、destination、timestamp 和 message。训练/验证/测试按时间连续切分，batch
+只能保持顺序，不能 shuffle。
+
+TGN 为每个节点维护 memory 和 last-update time；时间编码器将事件间隔映射为周期向量，最近
+邻居缓存只返回预测时已经发生的事件，TransformerConv 再对历史消息做注意力。当前 batch
+必须先预测、再写入 memory，否则会把答案泄漏给自身。实验比较无时间的静态 ID embedding
+和 TGN，并报告 AP/AUC。Wikipedia 是不规则事件图；最后将它与规则采样的交通 STGCN 对照。

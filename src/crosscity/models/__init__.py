@@ -6,6 +6,7 @@ from .heterogeneous_transformer import (
     HeterogeneousSAGEClassifier,
     HGTClassifier,
 )
+from .temporal_graph import StaticTemporalLinkPredictor, TGNLinkPredictor
 from .link_prediction import GCNEncoder, VariationalGCNEncoder, build_gae, build_vgae
 from .knowledge_graph import DistMult, RGCNDistMult, TransE
 from .recommendation import MatrixFactorization, build_lightgcn
@@ -31,6 +32,7 @@ __all__ = [
     "DistMult", "HeterogeneousEmbedding", "HeterogeneousGraphSAGE",
     "HeterogeneousMLPClassifier", "HeterogeneousSAGEClassifier", "HGTClassifier",
     "HistoricalAverage", "MLPNodeClassifier", "MatrixFactorization",
-    "RGCNDistMult", "TransE", "build_lightgcn",
+    "RGCNDistMult", "StaticTemporalLinkPredictor", "TGNLinkPredictor", "TransE",
+    "build_lightgcn",
     "SharedLSTM", "SharedMLP", "STGCN", "build_model",
 ]
