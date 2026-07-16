@@ -148,3 +148,6 @@ MLP, GCN, GIN, and a GPS model combining local message passing with global atten
 Chapter 10 completes the basic task taxonomy with edge-level link prediction on Cora. It explains
 negative sampling and leakage-safe edge splits, then compares feature similarity, GAE, and VGAE
 using ROC-AUC and Average Precision.
+
+Chapter 11 applies link prediction to MovieLens100K. It introduces user-item bipartite graphs,
+implicit feedback, BPR ranking loss, Recall/NDCG at K, matrix factorization, and LightGCN.

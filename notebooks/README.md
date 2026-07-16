@@ -7,5 +7,6 @@ Notebooks are intentionally secondary to the tested package. The current learnin
 3. `08_static_gnn_node_classification.ipynb`: MLP, GCN, GraphSAGE, and GAT on Cora.
 4. `09_graph_classification_and_transformer.ipynb`: graph mini-batching, GIN, and GPS on MUTAG.
 5. `10_link_prediction_and_graph_autoencoder.ipynb`: negative sampling, GAE, and VGAE on Cora.
+6. `11_recommendation_and_lightgcn.ipynb`: bipartite recommendation, BPR, and LightGCN.
 
 Each notebook should import code from `crosscity` instead of duplicating preprocessing logic.

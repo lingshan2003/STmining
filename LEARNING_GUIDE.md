@@ -94,3 +94,14 @@ MUTAG 的每个样本都是一张大小不同的分子图。PyG `DataLoader` 将
 隐藏 Cora 的 validation/test 边。GCN encoder 将节点编码为潜在向量，内积 decoder 用
 `sigmoid(z_i^T z_j)` 重建边。GAE 学习确定向量，VGAE 学习均值和方差并加入 KL 正则。
 实验使用 ROC-AUC 和 Average Precision，避免被大量非边造成的表面 accuracy 欺骗。
+
+## 第十课：二部图推荐与 LightGCN
+
+推荐交互图包含用户和电影两类节点，边只跨类型连接，因此是二部图。第 11 个 notebook
+将 MovieLens 评分 ≥4 转为隐式正反馈，用用户最近一次训练期正反馈做 validation，并保持
+官方 test 正反馈不可见。模型需要在所有未见电影中排序，而不是只分类给定节点对。
+
+本课比较 Popularity、矩阵分解和 LightGCN。BPR 为每个正交互采样一个未观察电影，优化
+正电影分数高于负电影；Recall@20 衡量命中覆盖，NDCG@20 进一步奖励靠前的命中。评价时
+必须屏蔽训练中已经交互的电影。LightGCN 在用户—电影图上做无特征变换、无激活的线性
+传播，不同层分别编码直接偏好和多跳协同过滤关系。
