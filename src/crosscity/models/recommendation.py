@@ -26,5 +26,7 @@ def build_lightgcn(
     num_items: int,
     embedding_dim: int = 64,
     num_layers: int = 3,
+    alpha: float | torch.Tensor | None = None,
 ) -> LightGCN:
-    return LightGCN(num_users + num_items, embedding_dim, num_layers)
+    """Build LightGCN with optional weights for ego and propagated layers."""
+    return LightGCN(num_users + num_items, embedding_dim, num_layers, alpha=alpha)

@@ -6,7 +6,12 @@ from crosscity.data.recommendation import (
     sample_bpr_negatives,
 )
 from crosscity.models.recommendation import MatrixFactorization, build_lightgcn
-from crosscity.training.recommendation import bpr_loss, ranking_metrics, train_recommender
+from crosscity.training.recommendation import (
+    bpr_loss,
+    ranking_diagnostics,
+    ranking_metrics,
+    train_recommender,
+)
 
 
 def toy_data() -> RecommendationData:
@@ -50,3 +55,17 @@ def test_models_and_ranking_training_smoke_run():
         assert 0 <= result.test.ndcg <= 1
         embedding = model.get_embedding(data.edge_index)
         assert ranking_metrics(embedding, data, split="test", k=2).recall <= 1
+
+
+def test_lightgcn_accepts_layer_weights_and_reports_diagnostics():
+    data = toy_data()
+    alpha = torch.tensor([0.7, 0.2, 0.1])
+    model = build_lightgcn(3, 5, 8, 2, alpha=alpha)
+    assert torch.allclose(model.alpha, alpha)
+    diagnostics = ranking_diagnostics(
+        model.get_embedding(data.edge_index), data, split="test", k=2
+    )
+    assert 0 <= diagnostics.coverage <= 1
+    assert diagnostics.average_popularity >= 0
+    assert 0 <= diagnostics.head_recall <= 1
+    assert 0 <= diagnostics.tail_recall <= 1

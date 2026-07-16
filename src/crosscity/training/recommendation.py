@@ -27,6 +27,17 @@ class RecommendationResult:
     history: list[dict[str, float]]
 
 
+@dataclass(frozen=True)
+class RankingDiagnostics:
+    """Accuracy and exposure diagnostics for a top-k recommendation list."""
+
+    metrics: RankingMetrics
+    coverage: float
+    average_popularity: float
+    head_recall: float
+    tail_recall: float
+
+
 def bpr_loss(
     embeddings: torch.Tensor,
     users: torch.Tensor,
@@ -54,6 +65,60 @@ def _ground_truth(users: torch.Tensor, items: torch.Tensor) -> dict[int, set[int
     for user, item in zip(users.tolist(), items.tolist()):
         result.setdefault(user, set()).add(item)
     return result
+
+
+@torch.no_grad()
+def ranking_diagnostics(
+    embeddings: torch.Tensor,
+    data: RecommendationData,
+    *,
+    split: str,
+    k: int = 20,
+    head_fraction: float = 0.2,
+) -> RankingDiagnostics:
+    """Measure accuracy, catalogue coverage, popularity and head/tail recall."""
+    if not 0 < head_fraction < 1:
+        raise ValueError("head_fraction must be between 0 and 1")
+    if split == "validation":
+        target_users, target_items = data.validation_users, data.validation_items
+        seen_users, seen_items = data.train_users, data.train_items
+    elif split == "test":
+        target_users, target_items = data.test_users, data.test_items
+        seen_users = torch.cat((data.train_users, data.validation_users))
+        seen_items = torch.cat((data.train_items, data.validation_items))
+    else:
+        raise ValueError("split must be 'validation' or 'test'")
+
+    truth = _ground_truth(target_users.cpu(), target_items.cpu())
+    users = torch.tensor(sorted(truth), device=embeddings.device)
+    scores = embeddings[users] @ embeddings[data.num_users:].t()
+    row_by_user = {int(user): row for row, user in enumerate(users.tolist())}
+    for user, item in zip(seen_users.tolist(), seen_items.tolist()):
+        if user in row_by_user:
+            scores[row_by_user[user], item] = -torch.inf
+    ranked = scores.topk(min(k, data.num_items), dim=1).indices.cpu()
+
+    popularity = torch.bincount(data.train_items.cpu(), minlength=data.num_items)
+    head_count = max(1, round(data.num_items * head_fraction))
+    head_items = set(popularity.topk(head_count).indices.tolist())
+    recommended = set(ranked.flatten().tolist())
+    head_hits = head_total = tail_hits = tail_total = 0
+    for row, user in enumerate(users.tolist()):
+        predicted = set(ranked[row].tolist())
+        for item in truth[user]:
+            if item in head_items:
+                head_total += 1
+                head_hits += int(item in predicted)
+            else:
+                tail_total += 1
+                tail_hits += int(item in predicted)
+    return RankingDiagnostics(
+        metrics=ranking_metrics(embeddings, data, split=split, k=k),
+        coverage=len(recommended) / data.num_items,
+        average_popularity=float(popularity[ranked].float().mean()),
+        head_recall=head_hits / head_total if head_total else 0.0,
+        tail_recall=tail_hits / tail_total if tail_total else 0.0,
+    )
 
 
 @torch.no_grad()

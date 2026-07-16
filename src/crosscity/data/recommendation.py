@@ -35,8 +35,19 @@ def load_movielens_implicit(
     root: str | Path,
     *,
     positive_rating: int = 4,
+    graph_rating: int | None = None,
 ) -> RecommendationData:
-    """Load MovieLens100K and create a leakage-safe implicit-feedback graph."""
+    """Load MovieLens100K and create a leakage-safe implicit-feedback graph.
+
+    ``positive_rating`` defines recommendation targets and BPR positives, while
+    ``graph_rating`` controls which historical ratings become message-passing
+    edges. Separating them lets a denser behaviour graph support a stricter
+    preference target without leaking validation or test target edges.
+    """
+    if graph_rating is None:
+        graph_rating = positive_rating
+    if not 1 <= graph_rating <= 5 or not 1 <= positive_rating <= 5:
+        raise ValueError("rating thresholds must be between 1 and 5")
     graph = MovieLens100K(root=str(Path(root)))[0]
     num_users = graph["user"].num_nodes
     num_items = graph["movie"].num_nodes
@@ -60,8 +71,18 @@ def load_movielens_implicit(
     test_items = relation.edge_label_index[1, test_positive]
     train_users, train_items = base_users[train_mask], base_items[train_mask]
 
-    user_nodes = train_users
-    item_nodes = train_items + num_users
+    graph_mask = relation.rating >= graph_rating
+    # The validation targets came from the base graph, so remove those exact
+    # pairs from message passing even when the graph threshold is lower.
+    held_out = set(zip(base_users[validation_mask].tolist(), base_items[validation_mask].tolist()))
+    graph_users = relation.edge_index[0, graph_mask]
+    graph_items = relation.edge_index[1, graph_mask]
+    keep = torch.tensor(
+        [pair not in held_out for pair in zip(graph_users.tolist(), graph_items.tolist())],
+        dtype=torch.bool,
+    )
+    user_nodes = graph_users[keep]
+    item_nodes = graph_items[keep] + num_users
     directed = torch.stack((user_nodes, item_nodes))
     edge_index = torch.cat((directed, directed.flip(0)), dim=1)
     return RecommendationData(
