@@ -49,7 +49,7 @@
 |---|---|---|
 | 17 | `17_scalable_gnn_neighbor_sampling.ipynb` | 已完成：大图 mini-batch、neighbor sampling 与 GraphSAGE |
 | 18 | `18_gnn_failure_modes.ipynb` | 已完成：过平滑、过挤压、异配性与图重连 |
-| 19 | 待创建 | 规划：图自监督、预训练与 GraphMAE |
-| 20 | 待创建 | 规划：图基础模型与图—语言模型 |
+| 19 | `19_graph_self_supervision_and_pretraining.ipynb` | 已完成：遮蔽、对比学习、GraphMAE 与少标签迁移 |
+| 20 | `20_graph_foundation_and_graph_language_models.ipynb` | 已完成：跨图迁移、graph prompt、图—语言接口与 Graph-RAG |
 
 Notebook 负责解释与实验编排；可复用的数据、模型和训练逻辑必须从 `crosscity` package 导入，避免在 notebook 中复制出另一套不可测试的实现。
