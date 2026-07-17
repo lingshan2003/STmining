@@ -48,7 +48,7 @@
 | 编号 | Notebook | 状态 |
 |---|---|---|
 | 17 | `17_scalable_gnn_neighbor_sampling.ipynb` | 已完成：大图 mini-batch、neighbor sampling 与 GraphSAGE |
-| 18 | 待创建 | 规划：过平滑、过挤压与异配图 |
+| 18 | `18_gnn_failure_modes.ipynb` | 已完成：过平滑、过挤压、异配性与图重连 |
 | 19 | 待创建 | 规划：图自监督、预训练与 GraphMAE |
 | 20 | 待创建 | 规划：图基础模型与图—语言模型 |
 
